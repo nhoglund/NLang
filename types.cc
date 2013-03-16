@@ -1,5 +1,5 @@
-﻿#include <atomic>
-#include "types.h"
+﻿#include "types.h"
+#include <atomic>
 
 namespace nlang {
 	namespace types {
