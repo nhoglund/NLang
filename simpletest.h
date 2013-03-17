@@ -30,7 +30,7 @@ namespace simpletest {
 
 	class SpecReporter : public Reporter {
 	public:
-		SpecReporter(std::ostream& stream_) : stream(stream_) {}
+		SpecReporter(std::ostream& stream_ = std::cout) : stream(stream_) {}
 
 		virtual void nest(const char* msg) {
 			Reporter::nest(msg);
@@ -55,7 +55,7 @@ namespace simpletest {
 			if (bad > 0) {
 				reportCount(bad, "failed");
 			}
-			stream << "\n";
+			stream << "\n\n";
 		}
 
 	private:
@@ -86,9 +86,11 @@ namespace simpletest {
 	class Suite : public Test {
 	public:
 		void add(Test* test) {tests.push_back(test);}
-		Suite(const char* desc = NULL, Reporter& r = SpecReporter(std::cout)) : description(desc) {setReporter(r);}
+		Suite(Reporter& r) : description(NULL) {setReporter(r);}
+		Suite(const char* desc = NULL) : description(desc) {setReporter(defaultReporter);}
+		Suite(Reporter& r, const char* desc) : description(desc) {setReporter(r);}
 		virtual ~Suite() {
-			all([] (Test* test) {delete test;});
+			all<>([] (Test* test) {delete test;});
 		}
 		void execute() {
 			if (description) {
@@ -116,6 +118,7 @@ namespace simpletest {
 
 		const char*			description;
 		std::vector<Test*>	tests;
+		SpecReporter		defaultReporter;
 	};
 }
 
