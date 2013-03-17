@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+build.ninja
 
 # External tool builders
 .externalToolBuilders/
